@@ -16,7 +16,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from .views import (
+    CharacterListView,
+    CharacterDetailView,
+    CharacterCreateView,
+    CharacterUpdateView,
+    CharacterDeleteView,
+)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', CharacterListView.as_view(), name='characters'),
+    path('character/<int:pk>/', CharacterDetailView.as_view(), name='character-detail'),
+    path('character/new/', CharacterCreateView.as_view(), name='character-create'),
+    path('character/<int:pk>/update/', CharacterUpdateView.as_view(), name='character-update'),
+    path('character/<int:pk>/delete/', CharacterDeleteView.as_view(), name='character-delete'),
 ]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
